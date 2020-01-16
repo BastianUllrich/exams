@@ -1,0 +1,64 @@
+{% trans_default_domain 'contao_exception' %}
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+	{% block head %}
+		<meta charset="utf-8">
+		<title>{% block title %}{{ page_title }} - {{ statusCode }} Error{% endblock %}</title>
+		<meta name="generator" content="Contao Open Source CMS">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no">
+		<link rel="stylesheet" href="assets/css/e8a662afe719.css">
+		<link rel="stylesheet" href="assets/css/fbb312d49026.css">
+	{% endblock %}
+</head>
+<body>
+	<div id="header">
+		<div class="wrap">
+			<div class="header-logo">
+				<img src="files/mate/img/logo.png" alt="BliZ-Logo" title="BliZ-Logo" />
+			</div>
+		</div>
+	</div>
+	<div id="content">
+		<div class="wrap">
+			<div class="error">
+				{% block message %}<h1>{{ block('title') }}</h1>{% endblock %}
+				<div class="block-error">
+					<div class="inner">
+					<div class="text-error">
+						{% block main %}
+								{% if block('matter') is defined %}
+									{% set _block = block('matter') %}
+									{% if _block|trim is not empty %}
+										<h2>{{ 'XPT.matter'|trans }}</h2>
+										{{ _block|raw }}
+									{% endif %}
+								{% endif %}
+								{% if block('howToFix') is defined %}
+									{% set _block = block('howToFix') %}
+									{% if _block|trim is not empty %}
+										<h2>{{ XPT.howToFix'|trans }}</h2>
+										{{ _block|raw }}
+									{% endif %}
+								{% endif %}
+								{% if block('explain') is defined %}
+									{% set _block = block('explain') %}
+									{% if _block|trim is not empty %}
+										<h3>{{ 'XPT.more'|trans }}</h3>
+										{{ _block|raw }}
+									{% endif %}
+								{% endif %}
+							{% endblock %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="wrap">
+			
+		</div
+	</div>
+</body>
+</html>
