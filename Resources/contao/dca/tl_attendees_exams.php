@@ -25,14 +25,18 @@ $GLOBALS['TL_DCA']['tl_attendees_exams'] = [
             'edit' => [
                 'href' => 'act=edit',
                 'icon' => 'edit.svg',
+		'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['edit']
             ],
             'delete' => [
                 'href' => 'act=delete',
                 'icon' => 'delete.svg',
+		'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['delete'],
+		'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
             ],
             'show' => [
                 'href' => 'act=show',
-                'icon' => 'show.svg'
+                'icon' => 'show.svg',
+		'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['show']
             ],
         ],
     ],
@@ -47,7 +51,7 @@ $GLOBALS['TL_DCA']['tl_attendees_exams'] = [
         'attendee_id' => [
             'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['attendee_id'],
             'inputType' => 'select',
-	    //Optionen aus Funktion getAttendee() holen
+	        //Optionen aus Funktion getAttendee() holen
             'options_callback' => ['tl_attendees_exams', 'getAttendee'],
             'eval' => ['mandatory' => true, 'includeBlankOption' => true],
             'sql' => ['type' => 'integer', 'default' => 0]
@@ -55,22 +59,58 @@ $GLOBALS['TL_DCA']['tl_attendees_exams'] = [
         'exam_id' => [
             'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['exam_id'],
             'inputType' => 'select',
-	    //Optionen aus Funktion getExam() holen
+	        //Optionen aus Funktion getExam() holen
             'options_callback' => ['tl_attendees_exams', 'getExam'],
             'eval' => ['mandatory' => true, 'includeBlankOption' => true],
             'sql' => ['type' => 'integer', 'default' => 0]
         ],
-	'status' => [
-	    'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['status'],
-	    'inputType' => 'select',
-	    'options' => ['in_progress', 'confirmed'],
-	    'reference' => &$GLOBALS['TL_LANG']['tl_attendees_exams'],
+        'status' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['status'],
+            'inputType' => 'select',
+            'options' => ['in_progress', 'confirmed'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_attendees_exams'],
             'eval' => ['mandatory' => true, 'includeBlankOption' => true],
             'sql' => ['type' => 'string', 'length' => '16', 'default' => 0]
-	],
+        ],
+        'rehab_devices' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['rehab_devices'],
+            'inputType' => 'checkbox',
+            'options' => ['pc', 'blind workspace', 'Zoomtext', 'screen magnifier', 'screen reader', 'a3 print', 'obscuration', 'writing assistance', 'high table', 'near door', 'different'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_attendees_exams'],
+            'eval' => ['mandatory' => false, 'multiple' => true],
+            'sql' => ['type' => 'blob', 'notnull' => false, 'default' => '']
+        ],
+        'rehab_devices_others' => [
+            'label' => $GLOBALS['TL_LANG']['tl_attendees_exams']['rehab_devices_others'],
+            'inputType' => 'text',
+            'eval' => ['mandatory' => false, 'maxlength' => 30],
+            'sql' => ['type' => 'string', 'length' => '30', 'default' => '']
+        ],
+        'assistant_id' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['assistant_id'],
+            'inputType' => 'select',
+            //Optionen aus Funktion getAssistant() holen
+            'options_callback' => ['tl_attendees_exams', 'getAssistant'],
+            'eval' => ['mandatory' => false, 'includeBlankOption' => true],
+            'sql' => ['type' => 'integer', 'default' => 0]
+        ],
+        'extra_time' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['extra_time'],
+            'inputType' => 'text',
+            'eval' => ['rgxp' => 'natural', 'maxlength' => 3, 'mandatory' => false],
+            'sql' => ['type' => 'integer', 'unsigned' => true, 'default' => 0]
+        ],
+        'extra_time_minutes_percent' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_attendees_exams']['extra_time_minutes_percent'],
+            'inputType' => 'select',
+            'options' => ['minutes', 'percent'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_attendees_exams'],
+            'eval' => ['mandatory' => false, 'includeBlankOption' => true],
+            'sql' => ['type' => 'string', 'length' => '8', 'default' => '']
+        ]
     ],
     'palettes' => [
-        'default' => '{exam_legend},attendee_id,exam_id,status'
+        'default' => 'attendee_id,exam_id,status,rehab_devices,rehab_devices_others,assistant_id,extra_time,extra_time_minutes_percent'
     ],
 ];
 
@@ -114,5 +154,21 @@ class tl_attendees_exams extends Backend
         return $array;
     }
 
+    // Alle Infos für Select-Box "Schreibassistenz" sammeln
+    public function getAssistant()
+    {
+        $array = array();
+        $this->import('Database');
+        $result = Database::getInstance()->prepare("SELECT id, firstname, lastname FROM tl_member WHERE usertype='Aufsicht'")->query();
+        while ($result->next()) {
+            $nameset = $result->lastname;
+            $nameset .= ', ';
+            $nameset .= $result->firstname;
+            $array[$result->id] = $nameset;
+        }
+        return $array;
+    }
+
 }
 ?>
+

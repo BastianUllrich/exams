@@ -1,6 +1,11 @@
 <?php
 
 $GLOBALS['TL_LANG']['tl_exams']['new'] = ['Neue Klausur hinzufügen', ''];
+$GLOBALS['TL_LANG']['tl_exams']['edit'] = ['Klausur bearbeiten', 'Klausur bearbeiten'];
+$GLOBALS['TL_LANG']['tl_exams']['delete'] = ['Klausur löschen', 'Klausur löschen'];
+$GLOBALS['TL_LANG']['tl_exams']['show'] = ['Details anzeigen', 'Details anzeigen'];
+
+
 $GLOBALS['TL_LANG']['tl_exams']['title'] = ['Titel der Lehrveranstaltung', 'Bitte genaue Bezeichnung'];
 $GLOBALS['TL_LANG']['tl_exams']['date'] = ['Datum', 'Bitte Datum wählen'];
 $GLOBALS['TL_LANG']['tl_exams']['time_begin'] = ['Beginn (Uhrzeit)', 'Uhrzeit im Format 12:00'];
