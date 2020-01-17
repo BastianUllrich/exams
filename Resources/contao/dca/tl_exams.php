@@ -13,8 +13,8 @@ $GLOBALS['TL_DCA']['tl_exams'] = [
     'list' => [
         'sorting' => [
             'mode' => 1,
-            'fields' => ['title', 'status'],
-            'flag' => 1,
+            'fields' => ['date'],
+            'flag' => 12,
             'panelLayout' => 'search,filter;limit,sort'
         ],
         'label' => [
@@ -56,7 +56,7 @@ $GLOBALS['TL_DCA']['tl_exams'] = [
             'label' => &$GLOBALS['TL_LANG']['tl_exams']['date'],
             'search' => true,
             'inputType' => 'text',
-	    'flag' => 6,
+	    'flag' => 5,
             'eval' => ['maxlength' => 10, 'mandatory' => true, 'datepicker'=>$this->getDatePickerString(), 'rgxp' => 'date'],
             'sql' => ['type' => 'string', 'length' => 10, 'default' => '']
         ],

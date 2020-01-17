@@ -11,4 +11,8 @@ $GLOBALS['BE_MOD']['Klausurverwaltung']['Mitglieder'] = [
     'tables' => ['tl_member'],
 ];
 
+$GLOBALS['BE_MOD']['Klausurverwaltung']['Klausurzuweisung'] = [
+    'tables' => ['tl_attendees_exams'],
+];
+
 ?>
