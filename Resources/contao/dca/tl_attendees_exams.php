@@ -18,9 +18,11 @@ $GLOBALS['TL_DCA']['tl_attendees_exams'] = [
         ],
         'label' => [
             'fields' => ['attendee_id:tl_member.firstname', 'attendee_id:tl_member.lastname', 'exam_id:tl_exams.title'],
-            'format' => '%s',
+            //'fields' => ['firstname', 'lastname', 'title'],
+	    'format' => '%s',
             'showColumns' => true,
-        ],
+            //'label_callback' => ['tl_attendees_exams', 'getLabels']
+	],
         'operations' => [
             'edit' => [
                 'href' => 'act=edit',
@@ -116,6 +118,27 @@ $GLOBALS['TL_DCA']['tl_attendees_exams'] = [
 
 class tl_attendees_exams extends Backend
 {
+
+	/**
+	* Labels aus DB holen
+	* @param $row
+	* @param $label
+	* @return array
+	*/
+
+    public function getLabels($row, $label)
+    {
+        $this->import('Database');
+        $result = Database::getInstance()->prepare("SELECT tl_member.firstname, tl_member.lastname, tl_exams.title FROM tl_member, tl_exams, tl_attendees_exams WHERE tl_member.id=tl_attendees_exams.attendee_id AND tl_exams.id=tl_attendees_exams.exam_id")->query();
+	$count = count($result);
+	$i = 0;
+	while ($result->next()) {
+		//$args[$i] = $row['firstname'] . '$i' . $result->title;
+		$args[$i] = $result->title;
+		$i++;
+		return $args;
+	}
+    }
 
     // Alle Infos für Select-Box "Teilnehmer" sammeln
     public function getAttendee()
