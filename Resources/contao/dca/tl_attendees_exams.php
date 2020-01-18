@@ -121,25 +121,23 @@ class tl_attendees_exams extends Backend
 
 	/**
 	* Labels aus DB holen
-	* @param $row
-	* @param $label
-	* @return array
+     * @param array         $row
+     * @param string        $label
+     * @param DataContainer $dc
+     * @param array         $args
 	*/
-
-    public function getLabels($row, $label)
+/* Funktion deaktiviert
+    public function getLabels($row, $label, DataContainer $dc, $args)
     {
         $this->import('Database');
         $result = Database::getInstance()->prepare("SELECT tl_member.firstname, tl_member.lastname, tl_exams.title FROM tl_member, tl_exams, tl_attendees_exams WHERE tl_member.id=tl_attendees_exams.attendee_id AND tl_exams.id=tl_attendees_exams.exam_id")->query();
-	$count = count($result);
-	$i = 0;
-	while ($result->next()) {
-		//$args[$i] = $row['firstname'] . '$i' . $result->title;
-		$args[$i] = $result->title;
-		$i++;
+        while ($result->next()) {
+            //$args[$i] = $row['firstname'] . '$i' . $result->title;
+            	$args[0] = sprintf('Ananas', 'Ist ok', $dc);
 		return $args;
-	}
+        }
     }
-
+*/
     // Alle Infos für Select-Box "Teilnehmer" sammeln
     public function getAttendee()
     {
